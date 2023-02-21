@@ -3,6 +3,15 @@ import * as store from "./store";
 import Navigo from "navigo";
 import { capitalize } from "lodash";
 
+const router = new Navigo("/");
+
+function afterRender() {
+  // add menu toggle to bars icon in nav bar
+  document.querySelector(".fa-bars").addEventListener("click", () => {
+    document.querySelector("nav > ul").classList.toggle("hidden--mobile");
+  });
+}
+
 function render(state = store.Home) {
   document.querySelector("#root").innerHTML = `
     ${Header(state)}
@@ -10,11 +19,10 @@ function render(state = store.Home) {
     ${Main(state)}
     ${Footer()}
   `;
+  afterRender();
   router.updatePageLinks();
-  console.log(state);
 }
 
-const router = new Navigo("/");
 router.on("/", () => render(store.Home)).resolve();
 router
   .on({
@@ -25,8 +33,3 @@ router
     },
   })
   .resolve();
-
-  //add menu toggle to bars icon in nav bar
-document.querySelector(".fa-bars").addEventListener("click", () => {
-  document.querySelector("nav > ul").classList.toggle("hidden--mobile");
-});
