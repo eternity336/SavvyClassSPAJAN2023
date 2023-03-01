@@ -93,6 +93,7 @@ router
   .on({
     "/": () => render(),
     ":view": params => {
+      console.log("INFO:", params)
       let view = capitalize(params.data.view);
       render(store[view]);
     }
